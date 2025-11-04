@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//TOPページへ（村上）
+Route::get('/', function () {
+    return view('top');
+});
