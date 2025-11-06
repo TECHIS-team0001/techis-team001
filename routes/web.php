@@ -1,23 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-//TOPページへ（村上）
+//トップページ
 Route::get('/', function () {
     return view('top');
 });
+
+// メニュー関連
+Route::resource('menus', MenuController::class);
+Route::post('/menus/reset', [MenuController::class, 'reset'])->name('menus.reset');
+
+// 注文関連
+Route::post('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+
