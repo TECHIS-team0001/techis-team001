@@ -4,99 +4,100 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu;
-use App\Models\Order;
 
 class MenuController extends Controller
 {
-    // 一覧
+    /**
+     * メニュー一覧を表示
+     */
     public function index()
     {
         $menus = Menu::all();
         return view('menus.index', compact('menus'));
     }
 
-    // 登録ページ
+    /**
+     * メニュー作成フォームを表示
+     */
     public function create()
     {
         return view('menus.create');
     }
 
-    // 登録処理
+    /**
+     * メニューを登録
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'type' => 'required',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|string',
             'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|integer|min:0',
         ]);
 
-        Menu::create($request->only('name', 'type', 'quantity', 'price'));
+        Menu::create($validated);
 
-        return redirect()->route('menus.index');
+        return redirect()->route('menus.index')->with('success', 'メニューを追加しました！');
     }
 
-    // 編集ページ
+    /**
+     * メニュー編集フォームを表示
+     */
     public function edit(Menu $menu)
     {
         return view('menus.edit', compact('menu'));
     }
 
-    // 更新処理
+    /**
+     * メニューを更新
+     */
     public function update(Request $request, Menu $menu)
     {
-        $request->validate([
-            'name' => 'required',
-            'type' => 'required',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|string',
             'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|integer|min:0',
         ]);
 
-        $menu->update($request->only('name', 'type', 'quantity', 'price'));
+        $menu->update($validated);
 
-        return redirect()->route('menus.index');
+        return redirect()->route('menus.index')->with('success', 'メニューを更新しました！');
     }
 
-    // 個別削除
+    /**
+     * メニューを削除
+     */
     public function destroy(Menu $menu)
     {
         $menu->delete();
-        return redirect()->route('menus.index');
+        return redirect()->route('menus.index')->with('success', 'メニューを削除しました！');
     }
 
-    // 全削除
+    /**
+     * 全メニューを削除
+     */
     public function reset()
     {
         Menu::truncate();
-        return redirect()->route('menus.index');
+        return redirect()->route('menus.index')->with('success', '全メニューを削除しました！');
     }
 
-    // ✅ 会計ページ
-    public function checkout(Request $request)
-    {
-        $selected = $request->input('selected', []);
-        $menus = Menu::whereIn('id', array_keys($selected))->get();
-
-        return view('menus.checkout', compact('menus'));
-    }
-
-    // ✅ 注文確定処理
+    /**
+     * ✅ 会計確認ページ（チェックしたメニューの確認）
+     */
     public function confirm(Request $request)
     {
-        $quantities = $request->input('quantities', []);
-        $menus = Menu::whereIn('id', array_keys($quantities))->get();
+        $selectedIds = explode(',', $request->input('selected_ids', ''));
 
-        foreach ($menus as $menu) {
-            $qty = $quantities[$menu->id];
-            Order::create([
-                'menu_name' => $menu->name,
-                'menu_type' => $menu->type,
-                'quantity' => $qty,
-                'price' => $menu->price,
-                'subtotal' => $menu->price * $qty,
-            ]);
+        // 空配列でアクセスされた場合の処理
+        if (empty($selectedIds) || $selectedIds[0] === '') {
+            return redirect()->route('menus.index')->with('error', 'メニューが選択されていません。');
         }
 
-        return view('menus.thanks');
+        $menus = Menu::whereIn('id', $selectedIds)->get();
+
+        return view('menus.confirm', compact('menus'));
     }
 }
