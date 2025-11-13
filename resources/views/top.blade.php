@@ -1,26 +1,8 @@
 @extends('layouts.app')
 
-<<<<<<< HEAD
-@section('title', 'だんご屋 トップ')
+@section('title', 'トップ')
 
 @section('content')
-<div class="container">
-    <h1>🍡 だんご屋 🍡</h1>
-
-    <div class="photo">
-        <img src="{{ asset('images/dango.jpg') }}" alt="店舗写真">
-    </div>
-
-    <div class="buttons">
-        <a href="{{ url('/menus') }}" class="btn btn-menu">メニュー</a>
-        <a href="#" class="btn btn-staff">スタッフ</a>
-    </div>
-</div>
-=======
-@section('title', 'メニュー')
-
-@section('content')
-
 <style>
 .page-wrapper {
     display: flex;
@@ -28,7 +10,7 @@
     align-items: center;
     height: calc(100vh - 120px); 
     padding: 40px 0;
-    background-color: #f6f5f2;
+    background-color: #fffaf5; /* メニューと同じ色に統一 */
 }
 
 .container {
@@ -56,6 +38,7 @@ h1 {
     border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 40px;
+    background-color: #fffaf5; /* 画像の後ろも同色に */
 }
 
 .photo img {
@@ -91,22 +74,18 @@ h1 {
 }
 </style>
 
-
-<div class="page-wrapper"> 
+<div class="page-wrapper">
     <div class="container">
-        <h1>だんご屋</h1>
+        <h1>🍡 だんご屋 🍡</h1>
 
         <div class="photo">
             <img src="{{ asset('images/dango.jpg') }}" alt="店舗写真">
         </div>
 
         <div class="buttons">
-            <a href="{{ route('menus.index') }}" class="btn btn-menu">メニュー</a>
+            <a href="{{ url('/menus') }}" class="btn btn-menu">メニュー</a>
             <a href="#" class="btn btn-staff">スタッフ</a>
         </div>
-
     </div>
 </div>
-
->>>>>>> 2a4ae6ac28736855acdb5c5d1096cdde523e93bc
 @endsection
