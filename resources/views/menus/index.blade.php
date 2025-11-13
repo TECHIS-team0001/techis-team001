@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'メニュー')
+@section('title', 'メニュー一覧')
 
 @section('content')
 <div style="background: #fffaf5; min-height: 100vh; padding: 40px; font-family: 'Hiragino Maru Gothic ProN', sans-serif;">
+
     <h1 style="text-align:center; color:#7a5c58; margin-bottom:30px;">🍡 メニュー 🍡</h1>
 
     <div style="text-align:center; margin-bottom: 20px;">
@@ -12,20 +13,12 @@
            ➕ 新しいメニューを追加
         </a>
 
-        {{-- ✅ 会計ボタン：チェックがある時だけ表示 --}}
-        <form id="checkout-form" action="{{ route('checkout') }}" method="GET" style="display:inline;">
-            <button id="pay-button" 
-                type="submit"
+        <!-- 会計ボタン -->
+        <form id="checkout-form" action="{{ route('checkout') }}" method="POST" style="display:inline;">
+            @csrf
+            <button id="pay-button" type="submit"
                 style="background:#b5d6a7; color:#fff; padding:10px 20px; border:none; border-radius:20px; font-weight:bold; cursor:pointer; display:none;">
                 💰 会計へ
-            </button>
-        </form>
-
-        <form action="{{ route('menus.reset') }}" method="POST" style="display:inline;">
-            @csrf
-            <button type="submit" 
-                style="background:#b5d6a7; color:#fff; padding:10px 20px; border:none; border-radius:20px; font-weight:bold; cursor:pointer;">
-                🗑️ 全削除
             </button>
         </form>
     </div>
@@ -80,29 +73,28 @@
             </tbody>
         </table>
     </div>
+
+    <!-- 下にTOPに戻るボタン -->
+    <div style="text-align:center; margin-top: 20px;">
+        <a href="{{ url('/') }}" 
+           style="background:#8ac4d0; color:#fff; padding:10px 20px; border-radius:20px; text-decoration:none; font-weight:bold; display:inline-block;">
+           ⬅ TOPに戻る
+        </a>
+    </div>
+
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const checks = document.querySelectorAll('.menu-check');
     const payBtn = document.getElementById('pay-button');
-    const deleteBtns = document.querySelectorAll('.delete-btn');
     const checkoutForm = document.getElementById('checkout-form');
 
-    checks.forEach((check, index) => {
+    checks.forEach(check => {
         check.addEventListener('change', () => {
             const checked = document.querySelectorAll('.menu-check:checked');
-            
-            // ✅ 会計ボタン表示切替
             payBtn.style.display = checked.length > 0 ? 'inline-block' : 'none';
 
-            // ✅ チェック中は削除ボタンを完全無効化
-            deleteBtns[index].disabled = check.checked;
-            deleteBtns[index].style.opacity = check.checked ? 0.5 : 1;
-            deleteBtns[index].style.pointerEvents = check.checked ? 'none' : 'auto';
-
-            // ✅ 選択されたIDを hidden input に渡す
-            const selectedIds = Array.from(checked).map(chk => chk.dataset.id);
             let hiddenInput = checkoutForm.querySelector('input[name="selected_ids"]');
             if (!hiddenInput) {
                 hiddenInput = document.createElement('input');
@@ -110,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 hiddenInput.name = 'selected_ids';
                 checkoutForm.appendChild(hiddenInput);
             }
-            hiddenInput.value = selectedIds.join(',');
+            hiddenInput.value = Array.from(checked).map(chk => chk.dataset.id).join(',');
         });
     });
 });

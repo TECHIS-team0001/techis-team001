@@ -1,5 +1,3 @@
-<?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,9 +7,11 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['items', 'total_price'];
-
-    protected $casts = [
-        'items' => 'array',
+    protected $fillable = [
+        'menu_id',
+        'name',
+        'type',
+        'quantity',
+        'price',
     ];
 }

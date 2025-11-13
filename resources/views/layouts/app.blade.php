@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', '団子屋')</title>
+    <title>@yield('title', 'だんご屋')</title>
     <style>
         body {
             font-family: "Hiragino Maru Gothic Pro", Arial, sans-serif;
@@ -53,24 +53,44 @@
             margin: 30px 0 20px;
             font-size: 14px;
         }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .btn-menu { background-color: #8ac4d0; }
+        .btn-staff { background-color: #dba39a; }
+        .btn-add { background-color: #f7c7c0; }
+        .btn-confirm { background-color: #b5d6a7; }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); transition: 0.2s; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>🌸 団子屋 🌸</h1>
-        <nav>
-            <a href="{{ route('menus.index') }}">メニュー</a> |
-            <a href="{{ route('menus.create') }}">メニュー追加</a> |
-            <a href="{{ route('orders.index') }}">注文履歴</a>
-        </nav>
-    </header>
+<header>
+    <h1>🌸 だんご屋 🌸</h1>
+    <nav>
+        <a href="{{ url('/') }}">TOP</a> |
+        <a href="#">会員登録</a> |
+        <a href="{{ route('menus.index') }}">メニュー</a> |
+        <a href="{{ route('menus.create') }}">メニュー追加</a> |
+        <a href="{{ route('orders.index') }}">注文履歴</a> |
+        <a href="#">ログアウト</a>
+    </nav>
+</header>
 
-    <main>
-        @yield('content')
-    </main>
+<main>
+    @yield('content')
+</main>
 
-    <footer>
-        <p>© 2025 Dango Café - Sweet moments for you 🍡</p>
-    </footer>
+<footer>
+    <p>© 2025 Dango Café - Sweet moments for you 🍡</p>
+</footer>
 </body>
 </html>

@@ -4,100 +4,55 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu;
+use App\Models\Order;
 
 class MenuController extends Controller
 {
-    /**
-     * メニュー一覧を表示
-     */
+    // メニュー一覧
     public function index()
     {
         $menus = Menu::all();
         return view('menus.index', compact('menus'));
     }
 
-    /**
-     * メニュー作成フォームを表示
-     */
+    // 新規メニュー作成画面
     public function create()
     {
         return view('menus.create');
     }
 
-    /**
-     * メニューを登録
-     */
+    // 新規メニュー保存
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|string',
-            'quantity' => 'required|integer|min:1',
-            'price' => 'required|integer|min:0',
-        ]);
-
-        Menu::create($validated);
-
+        Menu::create($request->all());
         return redirect()->route('menus.index')->with('success', 'メニューを追加しました！');
     }
 
-    /**
-     * メニュー編集フォームを表示
-     */
+    // メニュー編集画面
     public function edit(Menu $menu)
     {
         return view('menus.edit', compact('menu'));
     }
 
-    /**
-     * メニューを更新
-     */
+    // メニュー更新
     public function update(Request $request, Menu $menu)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|string',
-            'quantity' => 'required|integer|min:1',
-            'price' => 'required|integer|min:0',
-        ]);
-
-        $menu->update($validated);
-
+        $menu->update($request->all());
         return redirect()->route('menus.index')->with('success', 'メニューを更新しました！');
     }
 
-    /**
-     * メニューを削除
-     */
+    // メニュー削除
     public function destroy(Menu $menu)
     {
         $menu->delete();
         return redirect()->route('menus.index')->with('success', 'メニューを削除しました！');
     }
 
-    /**
-     * 全メニューを削除
-     */
-    public function reset()
+    // 会計画面（チェックしたメニューを渡す）
+    public function checkout(Request $request)
     {
-        Menu::truncate();
-        return redirect()->route('menus.index')->with('success', '全メニューを削除しました！');
-    }
-
-    /**
-     * ✅ 会計確認ページ（チェックしたメニューの確認）
-     */
-    public function confirm(Request $request)
-    {
-        $selectedIds = explode(',', $request->input('selected_ids', ''));
-
-        // 空配列でアクセスされた場合の処理
-        if (empty($selectedIds) || $selectedIds[0] === '') {
-            return redirect()->route('menus.index')->with('error', 'メニューが選択されていません。');
-        }
-
+        $selectedIds = $request->input('selected_ids', []);
         $menus = Menu::whereIn('id', $selectedIds)->get();
-
-        return view('menus.confirm', compact('menus'));
+        return view('checkout', compact('menus'));
     }
 }

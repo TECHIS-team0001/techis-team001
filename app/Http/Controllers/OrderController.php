@@ -4,40 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Menu;
 
 class OrderController extends Controller
 {
-    // 会計ページの表示
-    public function checkout(Request $request)
-    {
-        $selected = $request->input('selected', []);
-        $menus = json_decode($request->input('menus', '[]'), true);
-
-        $selectedMenus = array_filter($menus, fn($m) => in_array($m['id'], $selected));
-
-        $total = array_sum(array_column($selectedMenus, 'price'));
-
-        return view('orders.checkout', compact('selectedMenus', 'total'));
-    }
-
-    // 会計確定
+    // 注文確定（checkoutページで確定ボタン押したとき）
     public function store(Request $request)
     {
-        $items = $request->input('items');
-        $total = $request->input('total_price');
+        $menuIds = $request->input('menus', []);
 
-        Order::create([
-            'items' => $items,
-            'total_price' => $total,
-        ]);
+        if (empty($menuIds)) {
+            return redirect()->route('menus.index')->with('error', 'メニューを選択してください。');
+        }
 
-        return redirect()->route('orders.index')->with('success', '注文を保存しました！');
+        foreach ($menuIds as $id) {
+            $menu = Menu::find($id);
+            if ($menu) {
+                // 注文履歴に保存
+                Order::create([
+                    'name' => $menu->name,
+                    'type' => $menu->type,
+                    'quantity' => $menu->quantity,
+                    'price' => $menu->price,
+                ]);
+
+                // メニューから削除
+                $menu->delete();
+            }
+        }
+
+        return redirect()->route('orders.index')->with('success', '注文が完了しました！');
     }
 
-    // 注文履歴
+    // 注文履歴ページ
     public function index()
     {
-        $orders = Order::latest()->get();
+        $orders = Order::all(); // 注文履歴を全件取得
         return view('orders.index', compact('orders'));
     }
 }

@@ -3,22 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CartController; // ← ここにまとめる
 
+// TOPページ
 Route::get('/', function () {
-    return redirect()->route('menus.index');
+    return view('top');
 });
 
+// メニュー操作
 Route::resource('menus', MenuController::class);
-Route::post('/menus/reset', [MenuController::class, 'reset'])->name('menus.reset');
-Route::post('/menus/confirm', [MenuController::class, 'confirm'])->name('menus.confirm'); // ✅ ← これOK！
 
-// 会計関係
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
-Route::post('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+// 会計ページ（チェックしたメニューの確認）
+Route::post('/checkout', [MenuController::class, 'checkout'])->name('checkout');
+
+// 注文確定（会計確認後）
 Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
-Route::get('/test-db', function () {
-    return DB::table('users')->get();
-});
+// 注文履歴ページ
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

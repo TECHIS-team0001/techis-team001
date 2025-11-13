@@ -6,16 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->text('items'); // JSONで商品一覧を保存
-            $table->integer('total_price');
+            $table->unsignedBigInteger('menu_id'); // 元メニューID
+            $table->string('name');
+            $table->string('type');
+            $table->integer('quantity');
+            $table->integer('price');
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('orders');
