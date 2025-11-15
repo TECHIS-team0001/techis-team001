@@ -23,3 +23,8 @@ Route::post('/menus/delete-all', [MenuController::class, 'deleteAll'])->name('me
 
 // 注文履歴全削除
 Route::post('/orders/delete-all', [OrderController::class, 'deleteAll'])->name('orders.deleteAll');
+
+// ログアウト
+Route::get('/welcome', function () {
+    return view('welcome');
+})->name('welcome');

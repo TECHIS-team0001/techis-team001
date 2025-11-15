@@ -69,6 +69,7 @@
         .btn-staff { background-color: #dba39a; }
         .btn-add { background-color: #f7c7c0; }
         .btn-confirm { background-color: #b5d6a7; }
+        .btn-logout { background-color: #ff88a9; }
         .btn:hover { opacity: 0.9; transform: translateY(-2px); transition: 0.2s; }
     </style>
 </head>
@@ -81,7 +82,7 @@
         <a href="{{ route('menus.index') }}">メニュー</a> |
         <a href="{{ route('menus.create') }}">メニュー追加</a> |
         <a href="{{ route('orders.index') }}">注文履歴</a> |
-        <a href="#">ログアウト</a>
+        <a href="{{ route('welcome') }}">ログアウト</a>
     </nav>
 </header>
 
