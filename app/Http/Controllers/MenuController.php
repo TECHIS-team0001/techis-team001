@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu;
-use App\Models\Order;
 
 class MenuController extends Controller
 {
@@ -15,44 +14,65 @@ class MenuController extends Controller
         return view('menus.index', compact('menus'));
     }
 
-    // 新規メニュー作成画面
+    // メニュー追加フォーム
     public function create()
     {
         return view('menus.create');
     }
 
-    // 新規メニュー保存
+    // データ保存
     public function store(Request $request)
     {
-        Menu::create($request->all());
-        return redirect()->route('menus.index')->with('success', 'メニューを追加しました！');
+        $menu = new Menu();
+        $menu->name = $request->name;
+        $menu->type = $request->type;
+        $menu->quantity = $request->quantity;
+        $menu->price = $request->price;
+        $menu->save();
+
+        return redirect()->route('menus.index');
     }
 
-    // メニュー編集画面
+    // メニュー編集
     public function edit(Menu $menu)
     {
         return view('menus.edit', compact('menu'));
     }
 
-    // メニュー更新
     public function update(Request $request, Menu $menu)
     {
-        $menu->update($request->all());
-        return redirect()->route('menus.index')->with('success', 'メニューを更新しました！');
+        $menu->name = $request->name;
+        $menu->type = $request->type;
+        $menu->quantity = $request->quantity;
+        $menu->price = $request->price;
+        $menu->save();
+
+        return redirect()->route('menus.index');
     }
 
     // メニュー削除
     public function destroy(Menu $menu)
     {
         $menu->delete();
-        return redirect()->route('menus.index')->with('success', 'メニューを削除しました！');
+        return redirect()->route('menus.index');
     }
+    // メニュー全削除
+public function deleteAll()
+{
+    Menu::truncate();
+    return redirect()->route('menus.index')->with('success', '全てのメニューを削除しました！');
+}
 
-    // 会計画面（チェックしたメニューを渡す）
+    // 会計処理
     public function checkout(Request $request)
     {
-        $selectedIds = $request->input('selected_ids', []);
-        $menus = Menu::whereIn('id', $selectedIds)->get();
-        return view('checkout', compact('menus'));
+        // 選択されたメニューIDを取得
+        $ids = explode(',', $request->selected_ids ?? '');
+        $menus = Menu::whereIn('id', $ids)->get();
+
+        // 合計金額を計算
+        $total = $menus->sum('price');
+
+        return view('checkout', compact('menus', 'total'));
     }
 }

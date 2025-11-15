@@ -8,38 +8,48 @@ use App\Models\Menu;
 
 class OrderController extends Controller
 {
-    // 注文確定（checkoutページで確定ボタン押したとき）
+    // 注文履歴一覧
+    public function index()
+    {
+        $orders = Order::latest()->get();
+        return view('orders.index', compact('orders'));
+    }
+
+    // 会計処理
     public function store(Request $request)
     {
         $menuIds = $request->input('menus', []);
 
-        if (empty($menuIds)) {
-            return redirect()->route('menus.index')->with('error', 'メニューを選択してください。');
+        if (!is_array($menuIds)) {
+            $menuIds = [$menuIds];
         }
 
-        foreach ($menuIds as $id) {
-            $menu = Menu::find($id);
+        foreach ($menuIds as $menuId) {
+            $menu = Menu::find($menuId);
+
             if ($menu) {
-                // 注文履歴に保存
                 Order::create([
-                    'name' => $menu->name,
-                    'type' => $menu->type,
+                    'menu_id'  => $menu->id,
+                    'name'     => $menu->name,
+                    'type'     => $menu->type,
                     'quantity' => $menu->quantity,
-                    'price' => $menu->price,
+                    'price'    => $menu->price,
                 ]);
 
-                // メニューから削除
+                // 会計したらメニューから削除
                 $menu->delete();
             }
         }
 
-        return redirect()->route('orders.index')->with('success', '注文が完了しました！');
+        return redirect()
+            ->route('orders.index')
+            ->with('success', '会計が完了しました！');
     }
 
-    // 注文履歴ページ
-    public function index()
+    // 注文履歴全削除
+    public function deleteAll()
     {
-        $orders = Order::all(); // 注文履歴を全件取得
-        return view('orders.index', compact('orders'));
+        Order::truncate();
+        return redirect()->route('orders.index')->with('success', '全ての注文履歴を削除しました！');
     }
 }

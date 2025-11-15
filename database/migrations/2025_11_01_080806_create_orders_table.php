@@ -6,25 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('menu_id'); // 元メニューID
-            $table->string('name');
-            $table->string('type');
-            $table->integer('quantity');
-            $table->integer('price');
+            $table->string('menu_ids');  // 選択されたメニューID一覧 (例: "1,3,5")
+            $table->integer('total');    // 合計金額
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('orders');
