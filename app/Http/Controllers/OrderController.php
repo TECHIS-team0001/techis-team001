@@ -18,14 +18,11 @@ class OrderController extends Controller
     // 会計処理
 public function store(Request $request) 
 { 
-    $menuIds = $request->input('menus', []);
 
-    if (!is_array($menuIds)) { 
-        $menuIds = [$menuIds]; 
-    } 
+    $menuIds = explode(',', $request->input('selected_ids', ''));
 
     foreach ($menuIds as $menuId) { 
-        $menu = Menu::find($menuId); 
+        $menu = Menu::find($menuId);
         
         if ($menu) { 
             Order::create([ 

@@ -8,10 +8,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 120px); 
+    height: calc(100vh - 56px); 
     padding: 40px 0;
-    background-color: #fffaf5; /* メニューと同じ色に統一 */
+    background-color: #fffaf5;
 }
+
 
 .container {
     width: 500px;
@@ -38,7 +39,7 @@ h1 {
     border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 40px;
-    background-color: #fffaf5; /* 画像の後ろも同色に */
+    background-color: #fffaf5; 
 }
 
 .photo img {
@@ -84,7 +85,7 @@ h1 {
 
         <div class="buttons">
             <a href="{{ url('/menus') }}" class="btn btn-menu">メニュー</a>
-            <a href="#" class="btn btn-staff">スタッフ</a>
+            <a href="{{ route('staff.index') }}" class="btn btn-primary">スタッフ</a>
         </div>
     </div>
 </div>
