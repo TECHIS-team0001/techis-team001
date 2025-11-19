@@ -16,7 +16,8 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/'; // ログイン成功後に top.blade に遷移
+
 
     /**
      * ログアウト後にログイン画面にリダイレクト
