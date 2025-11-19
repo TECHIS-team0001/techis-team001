@@ -7,7 +7,7 @@ use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('top');
-});
+})->middleware('auth'); 
 
 Auth::routes();
 
