@@ -30,3 +30,8 @@ Route::post('/orders/deleteAll', [OrderController::class, 'deleteAll'])->name('o
 
 // 全削除
 Route::post('/menus/deleteAll', [MenuController::class, 'deleteAll'])->name('menus.deleteAll');
+
+// ログアウト
+Route::get('/welcome', function () {
+    return view('welcome');
+})->name('welcome');
