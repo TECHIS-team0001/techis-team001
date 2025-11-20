@@ -1,25 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MenuController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\StaffController;
 
-// --- TOPページ ---
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
 Route::get('/', function () {
-    return view('top');
-})->name('top');
+    return view('welcome');
+});
 
-// --- メニュー関連 ---
-Route::resource('menus', MenuController::class);
+Auth::routes();
 
-// --- 会計ページ ---
-Route::post('/checkout', [MenuController::class, 'checkout'])->name('checkout');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// --- 注文関連 ---
-Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-// メニュー全削除
-Route::post('/menus/delete-all', [MenuController::class, 'deleteAll'])->name('menus.deleteAll');
-
-// 注文履歴全削除
-Route::post('/orders/delete-all', [OrderController::class, 'deleteAll'])->name('orders.deleteAll');
+Route::resource('staff', StaffController::class);
