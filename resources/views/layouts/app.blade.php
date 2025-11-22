@@ -89,7 +89,7 @@
     </style>
 </head>
 <body>
-    
+ @if (!Route::is('login'))   
 <header>
     <h1>🌸 だんご屋 🌸</h1>
     <nav>
@@ -102,15 +102,20 @@
 
             @unless (Route::is('login'))
                 <li>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
-                        @csrf
-                        <li><a href="{{ route('login') }}">ログアウト</a></li>
-                    </form>
+    <a href="#" 
+        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        ログアウト
+    </a>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+        @csrf
+  </form>
                 </li>
-            @endunless
+            @endauth
         </ul>
     </nav>
 </header>
+@endif
 
   
     <main class="py-4">
