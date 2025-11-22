@@ -89,80 +89,30 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>🌸 だんご屋 🌸</h1>
-        <nav>
-            <a href="{{ url('/') }}">TOP</a> |
-            <a href="#">会員登録</a> |
-            <a href="{{ route('menus.index') }}">メニュー</a> |
-            <a href="{{ route('menus.create') }}">メニュー追加</a> |
-            <a href="{{ route('orders.index') }}">注文履歴</a> |
-            <a href="{{ route('welcome') }}">ログアウト</a>
-        </nav>
-    </header>
-    <!-- <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'テストアプリ') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-
-                    
-                    <ul class="navbar-nav ms-auto">
-                        
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('ログイン') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('アカウント作成') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('staff.index') }}">
-                                        {{ __('スタッフ管理') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('ログアウト') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div> -->
     
+<header>
+    <h1>🌸 だんご屋 🌸</h1>
+    <nav>
+        <ul style="list-style: none; display: flex; justify-content: center; gap: 15px; padding: 0; margin: 0;">
+            <li><a href="{{ route('top') }}">TOP</a></li>　|
+            <li><a href="{{ route('staff.index') }}">会員登録</a></li>　|
+            <li><a href="{{ route('menus.index') }}">メニュー</a></li>　|
+            <li><a href="{{ route('menus.create') }}">メニュー追加</a></li>　|
+            <li><a href="{{ route('orders.index') }}">注文履歴</a></li>　|
+
+            @unless (Route::is('login'))
+                <li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <li><a href="{{ route('login') }}">ログアウト</a></li>
+                    </form>
+                </li>
+            @endunless
+        </ul>
+    </nav>
+</header>
+
+  
     <main class="py-4">
         @yield('content')
     </main>
