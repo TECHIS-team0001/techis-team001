@@ -96,8 +96,8 @@
         <ul style="list-style: none; display: flex; justify-content: center; gap: 15px; padding: 0; margin: 0;">
             <li><a href="{{ route('top') }}">TOP</a></li>　|
             <li><a href="{{ route('staff.index') }}">会員登録</a></li>　|
-            <li><a href="{{ route('menus.index') }}">メニュー</a></li>　|
-            <li><a href="{{ route('menus.create') }}">メニュー追加</a></li>　|
+            <li><a href="{{ route('menus.index') }}">注文管理</a></li>　|
+            <li><a href="{{ route('menus.create') }}">注文</a></li>　|
             <li><a href="{{ route('orders.index') }}">注文履歴</a></li>　|
 
             @unless (Route::is('login'))

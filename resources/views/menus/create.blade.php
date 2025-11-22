@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'メニュー追加')
+@section('title', '注文')
 
 @section('content')
 <div style="background: #fffaf5; min-height: 100vh; padding: 40px; font-family: 'Hiragino Maru Gothic ProN', sans-serif;">
-    <h1 style="text-align:center; color:#7a5c58; margin-bottom:30px;">🍡 新しいメニューを追加 🍡</h1>
+    <h1 style="text-align:center; color:#7a5c58; margin-bottom:30px;">🍡 注文 🍡</h1>
 
     <div style="max-width:600px; margin:auto; background:white; padding:30px; border-radius:20px; box-shadow:0 0 15px rgba(0,0,0,0.1);">
         <form action="{{ route('menus.store') }}" method="POST">

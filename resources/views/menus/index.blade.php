@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'メニュー一覧')
+@section('title', '注文一覧')
 
 @section('content')
-<h2 style="text-align:center; color:#7a5c58; margin-bottom:30px;">🍡 メニュー一覧 🍡</h2>
+<h2 style="text-align:center; color:#7a5c58; margin-bottom:30px;">🍡 注文一覧 🍡</h2>
 
 <div style="text-align:center; margin-bottom:20px;">
-    <a href="{{ route('menus.create') }}" class="btn" style="background:#b5d6a7;">➕ 新しいメニューを追加</a>
+    <a href="{{ route('menus.create') }}" class="btn" style="background:#b5d6a7;">➕ メニュー注文</a>
 
-    <form action="{{ route('checkout') }}" method="POST" id="checkoutForm" style="display:inline;">
-        @csrf
+    <!-- 会計確認ページへGETで送る -->
+    <form action="{{ route('checkout.form') }}" method="GET" id="checkoutForm" style="display:inline;">
         <input type="hidden" name="selected_ids" id="selected_ids">
         <button type="submit" class="btn" style="background:#b5d6a7; display:none;" id="payBtn">✅ 会計</button>
     </form>

@@ -8,7 +8,7 @@
 @if($menus->isEmpty())
     <p style="text-align:center; color:#7a5c58;">選択されたメニューはありません。</p>
 @else
-<form action="{{ route('orders.store') }}" method="POST">
+<form action="{{ route('checkout') }}" method="POST"> <!-- POST checkout ルート -->
     @csrf
 
     <table style="width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden; margin-bottom:20px;">
@@ -22,6 +22,7 @@
             </tr>
         </thead>
         <tbody>
+            @php $total = 0; @endphp
             @foreach($menus as $menu)
             <tr style="text-align:center; background: {{ $loop->index % 2 == 0 ? '#fffaf5' : '#f4f4f4' }};">
                 <td>{{ $menu->id }}</td>
@@ -30,7 +31,8 @@
                 <td>{{ $menu->quantity }}</td>
                 <td>¥{{ number_format($menu->price) }}</td>
             </tr>
-            <input type="hidden" name="menus[]" value="{{ $menu->id }}">
+            <input type="hidden" name="selected_ids[]" value="{{ $menu->id }}">
+            @php $total += $menu->price; @endphp
             @endforeach
         </tbody>
     </table>
@@ -41,7 +43,7 @@
 
     <div style="text-align:center;">
         <button class="btn" style="background:#b5d6a7; padding:10px 20px; border-radius:12px; color:white; font-weight:bold; cursor:pointer;">
-            💰 会計確定
+            💰 確定
         </button>
     </div>
 </form>
