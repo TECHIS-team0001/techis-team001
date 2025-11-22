@@ -12,12 +12,11 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <!-- Fonts -->
+    <!-- Fonts & Styles -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
     <style>
         body {
             font-family: "Hiragino Maru Gothic Pro", Arial, sans-serif;
@@ -68,59 +67,40 @@
             margin: 30px 0 20px;
             font-size: 14px;
         }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 5px;
-        }
-
-        .btn-menu { background-color: #8ac4d0; }
-        .btn-staff { background-color: #dba39a; }
-        .btn-add { background-color: #f7c7c0; }
-        .btn-confirm { background-color: #b5d6a7; }
-        .btn-logout { background-color: #ff88a9; }
-        .btn:hover { opacity: 0.9; transform: translateY(-2px); transition: 0.2s; }
     </style>
 </head>
 <body>
- @if (!Route::is('login'))   
-<header>
-    <h1>🌸 だんご屋 🌸</h1>
-    <nav>
-        <ul style="list-style: none; display: flex; justify-content: center; gap: 15px; padding: 0; margin: 0;">
-            <li><a href="{{ route('top') }}">TOP</a></li>　|
-            <li><a href="{{ route('staff.index') }}">会員登録</a></li>　|
-            <li><a href="{{ route('menus.index') }}">注文管理</a></li>　|
-            <li><a href="{{ route('menus.create') }}">注文</a></li>　|
-            <li><a href="{{ route('orders.index') }}">注文履歴</a></li>　|
+    {{-- ログイン・パスワードページではヘッダー非表示 --}}
+    @if (!Route::is('login') && !Request::is('password/*'))
+    <header>
+        <h1>🌸 だんご屋 🌸</h1>
+        <nav>
+            <ul style="list-style: none; display: flex; justify-content: center; gap: 15px; padding: 0; margin: 0;">
+                <li><a href="{{ route('top') }}">TOP</a></li>
+                <li><a href="{{ route('staff.index') }}">会員登録</a></li>
+                <li><a href="{{ route('menus.index') }}">注文管理</a></li>
+                <li><a href="{{ route('menus.create') }}">注文</a></li>
+                <li><a href="{{ route('orders.index') }}">注文履歴</a></li>
 
-            @unless (Route::is('login'))
-                <li>
-    <a href="#" 
-        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        ログアウト
-    </a>
+                @unless (Route::is('login'))
+                    <li>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            ログアウト
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                            @csrf
+                        </form>
+                    </li>
+                @endunless
+            </ul>
+        </nav>
+    </header>
+    @endif
 
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-        @csrf
-  </form>
-                </li>
-            @endauth
-        </ul>
-    </nav>
-</header>
-@endif
-
-  
-    <main class="py-4">
+    <main>
         @yield('content')
     </main>
+
     <footer>
         <p>© 2025 Dango Café - Sweet moments for you 🍡</p>
     </footer>
