@@ -66,8 +66,12 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('登録') }}
                                 </button>
-                            </div>
-                        </div>
+                           
+                         <a href="{{ route('staff.index') }}"
+                   style="background:#f7c7c0; color:white; padding:10px 30px; border-radius:20px; text-decoration:none; font-weight:bold; margin-left:10px;">
+                    ↩ 戻る
+                </a>
+            </div>
                     </form>
                 </div>
             </div>
