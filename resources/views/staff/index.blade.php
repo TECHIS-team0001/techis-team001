@@ -33,4 +33,7 @@
         </div>
     </div>
 </div>
+<div style="text-align:center; margin-top:20px;">
+    <a href="{{ url('/') }}" class="btn" style="background:#8ac4d0;">⬅ TOPに戻る</a>
+</div>
 @endsection
