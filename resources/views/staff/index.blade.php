@@ -6,9 +6,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('スタッフ一覧') }}</div>
-
-                <div class="card-body">
-                    <a href="{{ route('staff.create') }}" class="btn btn-primary mb-3">スタッフ登録</a>
+ <div class="card-body">
+                    
 
                     <table class="table">
                         <thead>

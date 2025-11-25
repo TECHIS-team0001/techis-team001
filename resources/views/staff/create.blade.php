@@ -67,7 +67,7 @@
                                     {{ __('登録') }}
                                 </button>
                            
-                         <a href="{{ route('staff.index') }}"
+                         <a href="{{ route('login') }}"
                    style="background:#f7c7c0; color:white; padding:10px 30px; border-radius:20px; text-decoration:none; font-weight:bold; margin-left:10px;">
                     ↩ 戻る
                 </a>

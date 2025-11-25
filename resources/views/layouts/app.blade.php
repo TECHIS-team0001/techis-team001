@@ -4,15 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'だんご屋')</title>
 
-    <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <!-- Fonts & Styles -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -70,39 +67,53 @@
     </style>
 </head>
 <body>
-    {{-- ログイン・パスワードページではヘッダー非表示 --}}
-    @if (!Route::is('login') && !Request::is('password/*'))
-    <header>
-        <h1>🌸 だんご屋 🌸</h1>
-        <nav>
-            <ul style="list-style: none; display: flex; justify-content: center; gap: 15px; padding: 0; margin: 0;">
-                <li><a href="{{ route('top') }}">TOP</a></li>
+
+@php
+    // ▼ ナビバー非表示にしたいページ
+    $hideNavbar = request()->is('login')      // ログインページ
+        || request()->is('register')         // 登録ページ
+        || request()->is('password/*')       // パスワードリセット系
+        || request()->is('staff/create');    // スタッフ登録ページ
+@endphp
+
+{{-- ナビバー表示 --}}
+@if (!$hideNavbar)
+<header>
+    <h1>🌸 だんご屋 🌸</h1>
+    <nav>
+        <ul style="list-style: none; display: flex; justify-content: center; gap: 15px; padding: 0; margin: 0;">
+            <li><a href="{{ route('top') }}">TOP</a></li>
+
+            @auth
                 <li><a href="{{ route('staff.index') }}">会員登録</a></li>
                 <li><a href="{{ route('menus.index') }}">注文管理</a></li>
                 <li><a href="{{ route('menus.create') }}">注文</a></li>
                 <li><a href="{{ route('orders.index') }}">注文履歴</a></li>
+                <li>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        ログアウト
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                        @csrf
+                    </form>
+                </li>
+            @endauth
 
-                @unless (Route::is('login'))
-                    <li>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            ログアウト
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-                            @csrf
-                        </form>
-                    </li>
-                @endunless
-            </ul>
-        </nav>
-    </header>
-    @endif
+            @guest
+                <li><a href="{{ route('login') }}">ログイン</a></li>
+            @endguest
+        </ul>
+    </nav>
+</header>
+@endif
 
-    <main>
-        @yield('content')
-    </main>
+<main>
+    @yield('content')
+</main>
 
-    <footer>
-        <p>© 2025 Dango Café - Sweet moments for you 🍡</p>
-    </footer>
+<footer>
+    <p>© 2025 Dango Café - Sweet moments for you 🍡</p>
+</footer>
+
 </body>
 </html>
