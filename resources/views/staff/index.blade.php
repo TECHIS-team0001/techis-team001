@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>{{ __('スタッフ一覧') }}</span>
-                    <a href="{{ route('staff.create') }}" class="btn btn-primary">スタッフ登録</a>
+                
                 </div>
 
                 <div class="card-body">

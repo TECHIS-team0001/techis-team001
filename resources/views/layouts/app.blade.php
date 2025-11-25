@@ -82,9 +82,10 @@
     <h1>🌸 だんご屋 🌸</h1>
     <nav>
         <ul style="list-style: none; display: flex; justify-content: center; gap: 15px; padding: 0; margin: 0;">
-            <li><a href="{{ route('top') }}">TOP</a></li>
+            
 
             @auth
+            　　<li><a href="{{ route('top') }}">TOP</a></li>
                 <li><a href="{{ route('staff.index') }}">会員管理</a></li>
                 <li><a href="{{ route('menus.index') }}">注文管理</a></li>
                 <li><a href="{{ route('menus.create') }}">注文</a></li>
