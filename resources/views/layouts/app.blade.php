@@ -85,7 +85,7 @@
             <li><a href="{{ route('top') }}">TOP</a></li>
 
             @auth
-                <li><a href="{{ route('staff.index') }}">会員登録</a></li>
+                <li><a href="{{ route('staff.index') }}">会員管理</a></li>
                 <li><a href="{{ route('menus.index') }}">注文管理</a></li>
                 <li><a href="{{ route('menus.create') }}">注文</a></li>
                 <li><a href="{{ route('orders.index') }}">注文履歴</a></li>
