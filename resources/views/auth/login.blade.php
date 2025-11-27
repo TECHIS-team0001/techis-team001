@@ -71,7 +71,7 @@
 {{-- 画面右上に固定 --}}
 <a href="{{ route('staff.create') }}"
    style="position: fixed; top: 20px; right: 20px;
-          background:#ff88a9; color:white; padding:10px 18px;
+          background:#fac261; color:white; padding:10px 18px;
           border-radius:20px; font-weight:bold; text-decoration:none;
           box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index:999;">
     スタッフ登録

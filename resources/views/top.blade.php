@@ -85,7 +85,7 @@ h1 {
 
         <div class="buttons">
             <a href="{{ url('/menus') }}" class="btn btn-menu">メニュー</a>
-            <a href="{{ route('staff.index') }}" class="btn btn-staff">スタッフ</a>
+            <a href="{{ route('staff.index') }}" class="btn btn-staff">会員管理</a>
 
         </div>
     </div>
